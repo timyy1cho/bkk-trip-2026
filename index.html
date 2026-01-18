@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <!-- Version: 2026-01-19-V5-Mobile-Menu-Fixed -->
+    <!-- Version: 2026-01-19-V7-Full-Sync-Correct-Links -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>卓家 2026 曼谷輕奢旅行團 | Liquid Glass Dashboard</title>
@@ -75,7 +75,6 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
 
-        /* 手機版天數卡片 Active 樣式 */
         @media (max-width: 1024px) {
             .day-card.active {
                 border-left: none;
@@ -156,10 +155,9 @@
         <div class="liquid-blob blob-3"></div>
     </div>
 
-    <!-- 導航欄：修正手機版選單隱藏問題 -->
+    <!-- 導航欄 -->
     <nav class="sticky top-0 z-50 glass px-4 md:px-6 h-20 flex items-center">
         <div class="max-w-7xl mx-auto w-full flex justify-between items-center">
-            <!-- Logo 部位 -->
             <div class="flex items-center gap-2 md:gap-3 cursor-pointer" onclick="switchTab('itinerary')">
                 <div class="w-8 h-8 md:w-10 md:h-10 bg-orange-500 rounded-xl flex items-center justify-center shadow-lg">
                     <span class="text-white font-black italic text-sm md:text-xl">卓</span>
@@ -167,45 +165,35 @@
                 <div class="font-black text-xl md:text-2xl tracking-tighter">BKK<span class="text-orange-500">2026</span></div>
             </div>
             
-            <!-- 選單與功能按鈕 -->
             <div class="flex gap-2 md:gap-4 items-center">
-                <!-- 修正：移除 hidden sm:，讓行動端也能看到行程/預算選單 -->
                 <div class="flex gap-3 md:gap-5 mr-1 md:mr-4">
                     <button onclick="switchTab('itinerary')" id="nav-itinerary" class="text-[11px] md:text-sm font-bold opacity-100 border-b-2 border-orange-500 pb-1 transition-all">行程</button>
                     <button onclick="switchTab('transport')" id="nav-transport" class="text-[11px] md:text-sm font-bold opacity-60 hover:opacity-100 pb-1 transition-all">預算</button>
                 </div>
-                <!-- 雲端同步與分享 -->
-                <button onclick="saveToCloud()" id="sync-btn" class="btn-primary">
-                    <span>✨</span>
-                </button>
-                <button onclick="copyShareLink()" class="btn-secondary">
-                    <span>🔗</span>
-                </button>
+                <button onclick="saveToCloud()" id="sync-btn" class="btn-primary"><span>✨</span></button>
+                <button onclick="copyShareLink()" class="btn-secondary"><span>🔗</span></button>
             </div>
         </div>
     </nav>
 
     <main class="max-w-7xl mx-auto px-4 pb-20 pt-6 md:pt-10">
-        <!-- 行程內容區塊 -->
         <div id="itinerary-content" class="fade-in">
             <div class="flex flex-col lg:grid lg:grid-cols-12 gap-6 md:gap-8">
-                <!-- 天數選擇器 (手機版為滑動列) -->
+                <!-- 天數列表 (手機滑動) -->
                 <div class="lg:col-span-4">
                     <div id="day-list" class="flex flex-row lg:flex-col gap-3 overflow-x-auto no-scrollbar lg:max-h-[700px] lg:overflow-y-auto pb-4 lg:pb-10 px-1">
-                        <!-- 由 JS 自動產生卡片 -->
                     </div>
                 </div>
 
-                <!-- 行程詳細內容 -->
+                <!-- 詳細內容 -->
                 <div class="lg:col-span-8">
                     <div id="detail-panel" class="glass rounded-[2.5rem] md:rounded-[3.5rem] p-6 md:p-12 min-h-[500px] transition-all relative">
-                        <div class="flex items-center justify-center h-full text-slate-400 italic">正在開啟您的曼谷之旅...</div>
+                        <div class="flex items-center justify-center h-full text-slate-400 italic font-bold">載入最新行程中...</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 預算與交通區塊 -->
         <div id="transport-content" class="hidden fade-in">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
                 <div class="lg:col-span-7 space-y-8">
@@ -213,12 +201,12 @@
                         <h3 class="text-2xl font-black mb-8">航班資訊</h3>
                         <div class="space-y-4">
                             <div class="bg-white/40 border border-white p-6 rounded-3xl flex justify-between shadow-sm">
-                                <div><p class="text-[10px] font-bold text-slate-400">去程 2/20</p><p class="text-lg md:text-2xl font-black italic text-slate-700">TPE → BKK</p><p class="text-xs md:text-sm font-bold text-slate-500">08:05 - 11:10 (BR67)</p></div>
-                                <div class="text-right"><span class="px-3 py-1 rounded-full text-[10px] font-black bg-green-100 text-green-600">已確認</span></div>
+                                <div><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Departure 2/20</p><p class="text-lg md:text-2xl font-black italic text-slate-700">TPE → BKK</p><p class="text-xs md:text-sm font-bold text-slate-500">08:05 - 11:10 (BR67)</p></div>
+                                <div class="text-right"><span class="px-3 py-1 rounded-full text-[10px] font-black bg-green-100 text-green-600 shadow-sm border border-green-200">已確認</span></div>
                             </div>
                             <div class="bg-white/40 border border-white p-6 rounded-3xl flex justify-between shadow-sm">
-                                <div><p class="text-[10px] font-bold text-slate-400">回程 2/26</p><p class="text-lg md:text-2xl font-black italic text-slate-700">BKK → TPE</p><p class="text-xs md:text-sm font-bold text-slate-500">17:15 - 21:50 (BR68)</p></div>
-                                <div class="text-right"><span class="px-3 py-1 rounded-full text-[10px] font-black bg-green-100 text-green-600">已確認</span></div>
+                                <div><p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Return 2/26</p><p class="text-lg md:text-2xl font-black italic text-slate-700">BKK → TPE</p><p class="text-xs md:text-sm font-bold text-slate-500">17:15 - 21:50 (BR68)</p></div>
+                                <div class="text-right"><span class="px-3 py-1 rounded-full text-[10px] font-black bg-green-100 text-green-600 shadow-sm border border-green-200">已確認</span></div>
                             </div>
                         </div>
                     </div>
@@ -227,7 +215,7 @@
                         <div class="relative rounded-[2rem] md:rounded-[2.5rem] overflow-hidden aspect-video shadow-2xl bg-slate-200">
                             <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&q=80&w=1200" class="w-full h-full object-cover">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent p-6 md:p-8 flex items-end">
-                                <div class="text-white"><h4 class="text-xl md:text-2xl font-black tracking-tight">Sindhorn Midtown Hotel Bangkok</h4><p class="text-[10px] md:text-sm opacity-80">IHG Vignette Collection</p></div>
+                                <div class="text-white"><h4 class="text-xl md:text-2xl font-black tracking-tight">Sindhorn Midtown Hotel Bangkok</h4><p class="text-[10px] md:text-sm opacity-80">Vignette Collection - By IHG</p></div>
                             </div>
                         </div>
                     </div>
@@ -240,7 +228,7 @@
                             <div class="flex justify-between py-2 border-b border-black/5 text-sm md:text-base"><span class="text-slate-500 font-bold">精選體驗項目</span><span class="font-black">$6,653</span></div>
                             <div class="flex justify-between py-2 border-b border-black/5 text-sm md:text-base"><span class="text-slate-500 font-bold">交通與雜項</span><span class="font-black">$1,957</span></div>
                             <div class="mt-8 p-6 md:p-8 bg-slate-900 rounded-[2rem] text-white text-center shadow-xl">
-                                <p class="text-[10px] font-black opacity-60 mb-2 uppercase tracking-widest">Estimated Total</p>
+                                <p class="text-[10px] font-black opacity-60 mb-2 uppercase tracking-widest">Total Estimated</p>
                                 <p class="text-3xl md:text-4xl font-black text-orange-400">NT$ 27,451</p>
                             </div>
                         </div>
@@ -250,7 +238,6 @@
         </div>
     </main>
 
-    <!-- 提示框 -->
     <div id="custom-modal">
         <div class="glass p-10 rounded-[3rem] text-center max-w-sm w-full mx-4 shadow-2xl border-white border">
             <h5 id="modal-title" class="text-xl font-black mb-4">提示</h5>
@@ -264,26 +251,26 @@
         import { getAuth, signInAnonymously, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
         import { getFirestore, doc, getDoc, setDoc, onSnapshot } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
 
-        // --- Firebase 配置 ---
+        // Firebase 初始化配置
         const myConfig = { apiKey: "", authDomain: "", projectId: "", storageBucket: "", messagingSenderId: "", appId: "" };
         const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : myConfig;
         const currentAppId = typeof __app_id !== 'undefined' ? __app_id : 'zhuo-bkk-2026';
         const geminiApiKey = ""; 
 
-        // 核心行程資料
+        // 全面更新的行程資料與【對應每個景點】的 Google Map 搜尋連結
         let itineraryData = {
             1: {
                 date: "2月20日 (五)",
                 title: "啟程：曼谷吃吧費 day",
                 subtitle: "桃園機場 → BKK → Copper Buffet",
                 schedule: [
-                    { time: "05:00", event: "桃園機場 CHECK IN", desc: "TPE 報到並領取網卡。", map: "https://maps.app.goo.gl/YV1S7uF79Y5yG6A58" },
-                    { time: "08:05", event: "飛機起飛 (BR67)", desc: "搭乘長榮航空前往曼谷。", map: "https://www.evaair.com" },
-                    { time: "11:10", event: "抵達曼谷 BKK", desc: "抵達蘇凡納布機場。", map: "https://maps.app.goo.gl/X9Y5yG6A58VqYq7X6" },
-                    { time: "12:50", event: "CHECK IN / 飯店", desc: "Sindhorn Midtown Hotel Bangkok。", map: "https://maps.app.goo.gl/YV1S7uF79Y5yG6A58" },
-                    { time: "13:15", event: "出發換錢", desc: "SuperRich Gaysorn Amarin。", map: "https://maps.app.goo.gl/7G7N8hXmYp4Z6f6X9" },
-                    { time: "13:45", event: "Siam 商圈午餐", desc: "Siam Paragon / CentralWorld。", map: "https://maps.app.goo.gl/B3j4Fz9B9U1Y2J8R9" },
-                    { time: "19:30", event: "Copper Buffet 晚餐", desc: "頂級吃到飽饗宴。", map: "https://maps.app.goo.gl/7G7N8hXmYp4Z6f6X9" }
+                    { time: "05:00", event: "桃園機場 CHECK IN", desc: "TPE 第 2 航廈報到。", map: "https://www.google.com/maps/search/?api=1&query=桃園國際機場" },
+                    { time: "08:05", event: "飛機起飛 (BR67)", desc: "搭乘長榮航空。", map: "https://www.google.com/maps/search/?api=1&query=EVA+Air" },
+                    { time: "11:10", event: "抵達曼谷 BKK", desc: "蘇凡納布機場出關。", map: "https://www.google.com/maps/search/?api=1&query=Suvarnabhumi+Airport" },
+                    { time: "12:50", event: "CHECK IN / 飯店", desc: "Sindhorn Midtown Hotel。", map: "https://www.google.com/maps/search/?api=1&query=Sindhorn+Midtown+Hotel+Bangkok" },
+                    { time: "13:15", event: "換匯 (SuperRich)", desc: "前往 Gaysorn Amarin 店。", map: "https://www.google.com/maps/search/?api=1&query=SuperRich+Gaysorn+Amarin" },
+                    { time: "13:45", event: "Siam 商圈午餐", desc: "CentralWorld 或 Paragon。", map: "https://www.google.com/maps/search/?api=1&query=Siam+Paragon" },
+                    { time: "19:30", event: "Copper Buffet 晚餐", desc: "頂級吃到飽進場。", map: "https://www.google.com/maps/search/?api=1&query=Copper+Beyond+Buffet+Gaysorn+Amarin" }
                 ],
                 image: "https://lh3.googleusercontent.com/d/1QJsBsQLaxhvEQQkXazl35WPgngLyct8f"
             },
@@ -292,8 +279,8 @@
                 title: "購物：市區逛街 day",
                 subtitle: "洽圖恰市集 & 尚泰廣場",
                 schedule: [
-                    { time: "11:15", event: "洽圖恰市集", desc: "全球最大露天市集。", map: "https://maps.app.goo.gl/B3j4Fz9B9U1Y2J8R9" },
-                    { time: "16:00", event: "尚泰廣場 (叻拋店)", desc: "Central Ladprao 逛街。", map: "https://maps.app.goo.gl/o1H5n8R2Z5L2Q6X9" }
+                    { time: "11:15", event: "洽圖恰週末市集", desc: "全球最大露天市集。", map: "https://www.google.com/maps/search/?api=1&query=Chatuchak+Weekend+Market" },
+                    { time: "16:00", event: "尚泰廣場 (叻拋店)", desc: "Central Ladprao 掃貨。", map: "https://www.google.com/maps/search/?api=1&query=Central+Ladprao" }
                 ],
                 image: "https://lh3.googleusercontent.com/d/1uqcIVU-zzczUAd28Ai85dct9_Or83jv7"
             },
@@ -302,10 +289,10 @@
                 title: "探索：動物園 day",
                 subtitle: "大城府動物園 & JODD FAIRS",
                 schedule: [
-                    { time: "09:45", event: "大城府動物園", desc: "Sriayuthaya Lion Park。", map: "https://maps.app.goo.gl/VqYq7X6Z9Y5yG6A58" },
-                    { time: "12:30", event: "Bolan Cafe", desc: "大城特色咖啡廳。", map: "https://maps.app.goo.gl/X9Y5yG6A58VqYq7X6" },
-                    { time: "14:00", event: "柴瓦塔那蘭寺", desc: "觀賞壯麗古蹟。", map: "https://maps.app.goo.gl/X9Y5yG6A58VqYq7X6" },
-                    { time: "18:00", event: "JODD FAIRS 夜市", desc: "曼谷最夯夜市吃晚餐。", map: "https://maps.app.goo.gl/X9Y5yG6A58VqYq7X6" }
+                    { time: "09:45", event: "大城府動物園", desc: "Sriayuthaya Lion Park。", map: "https://www.google.com/maps/search/?api=1&query=Sriayuthaya+Lion+Park" },
+                    { time: "12:30", event: "Bolan Cafe", desc: "大城特色網美咖啡廳。", map: "https://www.google.com/maps/search/?api=1&query=Bolan+Cafe+Ayutthaya" },
+                    { time: "14:00", event: "柴瓦塔那蘭寺", desc: "觀賞壯麗古蹟。", map: "https://www.google.com/maps/search/?api=1&query=Wat+Chaiwatthanaram" },
+                    { time: "18:00", event: "JODD FAIRS 夜市", desc: "Rama 9 網紅夜市吃晚餐。", map: "https://www.google.com/maps/search/?api=1&query=JODD+FAIRS+Rama+9" }
                 ],
                 image: "https://lh3.googleusercontent.com/d/1WzToFI3NyCwBHZmeYn_4THKq5w0E9Drg"
             },
@@ -314,8 +301,8 @@
                 title: "文化：泰服體驗 day",
                 subtitle: "鄭王廟 & ICON SIAM",
                 schedule: [
-                    { time: "10:45", event: "鄭王廟泰服拍攝", desc: "傳統泰服文化體驗。", map: "https://maps.app.goo.gl/VqYq7X6Z9Y5yG6A58" },
-                    { time: "15:30", event: "ICONSIAM", desc: "曼谷最奢華河岸百貨。", map: "https://maps.app.goo.gl/X9Y5yG6A58VqYq7X6" }
+                    { time: "10:45", event: "鄭王廟泰服拍攝", desc: "傳統泰服文化拍攝體驗。", map: "https://www.google.com/maps/search/?api=1&query=Wat+Arun" },
+                    { time: "15:30", event: "ICONSIAM", desc: "曼谷最奢華河岸百貨。", map: "https://www.google.com/maps/search/?api=1&query=ICONSIAM" }
                 ],
                 image: "https://lh3.googleusercontent.com/d/1ZnR0KWYPpntH5e0URId8c20hoxjSrrni"
             },
@@ -324,9 +311,9 @@
                 title: "美食：美食巡禮 day",
                 subtitle: "松瓦路老街 & 巴士晚餐",
                 schedule: [
-                    { time: "10:45", event: "松瓦路老街散策", desc: "Song Wat Road 文青巡禮。", map: "https://maps.app.goo.gl/X9Y5yG6A58VqYq7X6" },
-                    { time: "17:30", event: "巴士晚餐之旅", desc: "Thai Bus Food Tour。", map: "https://maps.app.goo.gl/X9Y5yG6A58VqYq7X6" },
-                    { time: "自由", event: "Asiatique 夜市", desc: "碼頭河濱夜市漫遊。", map: "https://maps.app.goo.gl/X9Y5yG6A58VqYq7X6" }
+                    { time: "10:45", event: "松瓦路老街散策", desc: "Song Wat Road 文青老街。", map: "https://www.google.com/maps/search/?api=1&query=Song+Wat+Road" },
+                    { time: "17:30", event: "巴士晚餐之旅", desc: "Thai Bus Food Tour 體驗。", map: "https://www.google.com/maps/search/?api=1&query=River+City+Bangkok+Thai+Bus+Food+Tour" },
+                    { time: "自由", event: "Asiatique 夜市", desc: "碼頭河濱夜市漫遊。", map: "https://www.google.com/maps/search/?api=1&query=Asiatique+The+Riverfront" }
                 ],
                 image: "https://lh3.googleusercontent.com/d/1puhrH53kSJ4bZ0K7ySLEt0CPC16MK-LP"
             },
@@ -335,8 +322,8 @@
                 title: "悠閒：現代曼谷 day",
                 subtitle: "文創聚落 & One Bangkok",
                 schedule: [
-                    { time: "11:00", event: "Piccolo vicolo", desc: "森林系文創咖啡廳。", map: "https://maps.app.goo.gl/X9Y5yG6A58VqYq7X6" },
-                    { time: "14:00", event: "One Bangkok", desc: "曼谷最新地標探索。", map: "https://maps.app.goo.gl/X9Y5yG6A58VqYq7X6" }
+                    { time: "11:00", event: "Piccolo vicolo", desc: "森林系文創咖啡廳午茶。", map: "https://www.google.com/maps/search/?api=1&query=Piccolo+vicolo+cafe" },
+                    { time: "14:00", event: "One Bangkok", desc: "參訪曼谷最新地標商場。", map: "https://www.google.com/maps/search/?api=1&query=One+Bangkok" }
                 ],
                 image: "https://lh3.googleusercontent.com/d/100N6HzYx3DpbfGO3Jvp3vNr6YCNtNUP7"
             },
@@ -345,8 +332,8 @@
                 title: "賦歸：Home sweet home",
                 subtitle: "最後採買 → BKK → TPE",
                 schedule: [
-                    { time: "10:00", event: "Big C 最後採買", desc: "伴手禮掃貨時間。", map: "https://maps.app.goo.gl/X9Y5yG6A58VqYq7X6" },
-                    { time: "17:15", event: "起飛返台 (BR68)", desc: "結束愉快旅程。", map: "https://maps.app.goo.gl/X9Y5yG6A58VqYq7X6" }
+                    { time: "10:00", event: "Big C 最後採買", desc: "Ratchadamri 旗艦店。", map: "https://www.google.com/maps/search/?api=1&query=Big+C+Supercenter+Ratchadamri" },
+                    { time: "17:15", event: "起飛返台 (BR68)", desc: "結束愉快曼谷旅程。", map: "https://www.google.com/maps/search/?api=1&query=Suvarnabhumi+Airport" }
                 ],
                 image: "https://images.unsplash.com/photo-1534452203293-494d7ddbf7e0?auto=format&fit=crop&q=80&w=800"
             }
@@ -363,10 +350,8 @@
                 auth = getAuth(app);
                 db = getFirestore(app);
                 await signInAnonymously(auth);
-                updateStatus('success', '已連線');
                 setupFirestoreSync();
             } catch (err) {
-                updateStatus('error', '離線模式');
                 renderDayList();
                 showDay(1);
             }
@@ -392,7 +377,7 @@
                 const docRef = doc(db, 'artifacts', currentAppId, 'public', 'data', 'itinerary', 'main_config');
                 await setDoc(docRef, { data: window.itineraryData, updatedAt: new Date().toISOString() });
                 showModal("成功", "行程已同步！");
-            } catch (err) { showModal("失敗", "同步失敗，請檢查設定。");
+            } catch (err) { showModal("失敗", "同步失敗，請檢查權限設定。");
             } finally { btn.classList.remove('opacity-50', 'pointer-events-none'); }
         };
 
@@ -403,17 +388,9 @@
             dummy.select();
             document.execCommand("copy");
             document.body.removeChild(dummy);
-            showModal("連結已複製", "可貼給家人查看！");
+            showModal("連結已複製", "您可以將網址貼給家人查看！");
         };
 
-        function updateStatus(type, text) {
-            const dot = document.getElementById('status-dot');
-            const txt = document.getElementById('status-text');
-            if (txt) txt.innerText = text;
-            if (dot) dot.className = "w-2 h-2 rounded-full " + (type === 'success' ? 'bg-green-500' : type === 'error' ? 'bg-red-500' : 'bg-slate-300 animate-pulse');
-        }
-
-        // 修正：補全 switchTab 的按鈕樣式高亮邏輯
         window.switchTab = function(tab) {
             const isItinerary = tab === 'itinerary';
             document.getElementById('itinerary-content').classList.toggle('hidden', !isItinerary);
@@ -504,7 +481,7 @@
                 });
                 const res = await response.json();
                 resultArea.innerHTML = `<div class="fade-in p-6 md:p-8 rounded-[2rem] bg-white/80 border border-white shadow-xl mt-6"><h4 class="font-black text-orange-500 mb-2 md:mb-4 text-sm md:text-base">✨ AI 攻略建議</h4><div class="text-xs md:text-sm text-slate-600 whitespace-pre-wrap leading-relaxed">${res.candidates[0].content.parts[0].text}</div></div>`;
-            } catch (err) { resultArea.innerHTML = `<p class="p-8 text-center text-slate-400 text-xs mt-8">AI 助理離線...</p>`; }
+            } catch (err) { resultArea.innerHTML = `<p class="p-8 text-center text-slate-400 text-xs mt-8">AI 助理暫時休息中...</p>`; }
         };
 
         function showModal(title, msg) {
