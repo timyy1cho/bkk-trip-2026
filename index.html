@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <!-- Version: 2026-01-19-V12-AI-Transparent -->
+    <!-- Version: 2026-01-19-V13-Clean-No-AI -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>卓家 2026 曼谷輕奢旅行團 | Liquid Glass Dashboard</title>
@@ -93,12 +93,6 @@
             }
         }
 
-        .ai-btn {
-            @apply flex items-center gap-2 px-4 py-2 rounded-2xl text-xs font-bold transition-all border border-white/40 breath-effect;
-            background: rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(10px);
-        }
-
         .map-icon-btn {
             width: 40px; height: 40px;
             display: flex; align-items: center; justify-content: center;
@@ -109,17 +103,6 @@
             transition: all 0.2s;
         }
         .map-icon-btn:hover { background: var(--accent-orange); color: white; transform: scale(1.1); }
-
-        .loading-shimmer {
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
-        }
 
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .fade-in { animation: fadeIn 0.8s ease-out forwards; }
@@ -181,7 +164,7 @@
                 <!-- 行程詳細內容 -->
                 <div class="lg:col-span-8">
                     <div id="detail-panel" class="glass rounded-[2.5rem] md:rounded-[3.5rem] p-6 md:p-12 min-h-[500px] transition-all relative">
-                        <div class="flex items-center justify-center h-full text-slate-400 italic">正在載入試算表同步行程...</div>
+                        <div class="flex items-center justify-center h-full text-slate-400 italic font-bold">載入行程中...</div>
                     </div>
                 </div>
             </div>
@@ -240,11 +223,10 @@
         const myConfig = { apiKey: "", authDomain: "", projectId: "", storageBucket: "", messagingSenderId: "", appId: "" };
         const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : myConfig;
         const currentAppId = typeof __app_id !== 'undefined' ? __app_id : 'zhuo-bkk-2026';
-        const geminiApiKey = ""; 
 
         const getMapLink = (query) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query + ' Bangkok')}`;
 
-        // 核心數據：全面同步試算表
+        // 核心行程數據：已全面與試算表同步
         let itineraryData = {
             1: {
                 date: "2月20日 (五)",
@@ -252,9 +234,9 @@
                 subtitle: "桃園機場 → BKK → Copper Buffet",
                 schedule: [
                     { time: "05:00", event: "桃園機場 CHECK IN", desc: "TPE 第 2 航廈長榮櫃台。", map: getMapLink("桃園國際機場第二航廈") },
-                    { time: "08:05", event: "飛機起飛 (BR67)", desc: "長榮航空準時啟航。", map: getMapLink("桃園國際機場") },
+                    { time: "08:05", event: "飛機起飛 (BR67)", desc: "預計飛行 3 小時 50 分。", map: getMapLink("桃園國際機場") },
                     { time: "11:10", event: "抵達曼谷 BKK", desc: "蘇凡納布機場抵達。", map: getMapLink("Suvarnabhumi Airport") },
-                    { time: "11:50", event: "排隊出關+換網卡", desc: "完成入境並安裝 E-SIM。", map: getMapLink("Suvarnabhumi Airport") },
+                    { time: "11:50", event: "排隊出關+換網卡", desc: "辦理入境並安裝 E-SIM。", map: getMapLink("Suvarnabhumi Airport") },
                     { time: "12:00", event: "包車前往飯店", desc: "14人座 VIP 包車接送。", map: getMapLink("Sindhorn Midtown Hotel Bangkok") },
                     { time: "12:50", event: "寄放行李 / CHECK IN", desc: "飯店辦理手續。", map: getMapLink("Sindhorn Midtown Hotel Bangkok") },
                     { time: "13:15", event: "換錢 (SuperRich)", desc: "Gaysorn Amarin 換泰銖。", map: getMapLink("SuperRich Gaysorn Amarin") },
@@ -272,7 +254,7 @@
                 subtitle: "洽圖恰市集 & 尚泰廣場",
                 schedule: [
                     { time: "09:00", event: "飯店早餐", desc: "享用飯店自助早餐。", map: getMapLink("Sindhorn Midtown Hotel Bangkok") },
-                    { time: "10:30", event: "出發搭電車", desc: "體驗在地交通。", map: getMapLink("Chit Lom BTS Station") },
+                    { time: "10:30", event: "出發搭電車", desc: "體驗捷運前往市中心。", map: getMapLink("Chit Lom BTS Station") },
                     { time: "11:15", event: "洽圖恰週末市集", desc: "全球最大露天市集購物。", map: getMapLink("Chatuchak Weekend Market") },
                     { time: "16:00", event: "前往尚泰廣場 (叻拋店)", desc: "Central Ladprao 逛街。", map: getMapLink("Central Ladprao") },
                     { time: "18:00", event: "晚餐時間", desc: "商場美食街自由用餐。", map: getMapLink("Central Ladprao") },
@@ -285,13 +267,14 @@
                 title: "探索：動物園 day",
                 subtitle: "大城府動物園 & JODD FAIRS",
                 schedule: [
-                    { time: "07:00", event: "飯店早餐", desc: "提早準備。", map: getMapLink("Sindhorn Midtown") },
-                    { time: "08:00", event: "包車出發動物園", desc: "前往大城。", map: getMapLink("Sriayuthaya Lion Park") },
-                    { time: "09:45", event: "大城府動物園", desc: "Sriayuthaya Lion Park。", map: getMapLink("Sriayuthaya Lion Park") },
-                    { time: "12:30", event: "Bolan Cafe", desc: "大城特色咖啡廳。", map: getMapLink("Bolan Cafe Ayutthaya") },
-                    { time: "14:00", event: "參訪柴瓦塔那蘭寺", desc: "觀賞壯麗古蹟。", map: getMapLink("Wat Chaiwatthanaram") },
+                    { time: "07:00", event: "飯店早餐", desc: "提早用餐準備出發。", map: getMapLink("Sindhorn Midtown") },
+                    { time: "08:00", event: "包車出發動物園", desc: "前往大城府專車接送。", map: getMapLink("Sriayuthaya Lion Park") },
+                    { time: "09:45", event: "大城府動物園", desc: "與長頸鹿拍照及親密接觸。", map: getMapLink("Sriayuthaya Lion Park") },
+                    { time: "自由", event: "Bolan Cafe", desc: "大城特色網美咖啡廳。", map: getMapLink("Bolan Cafe Ayutthaya") },
+                    { time: "14:00", event: "參訪柴瓦塔那蘭寺", desc: "大城著名壯麗古蹟。", map: getMapLink("Wat Chaiwatthanaram") },
                     { time: "16:00", event: "前往夜市 (JODD)", desc: "前往 Rama 9 網紅夜市。", map: getMapLink("JODD FAIRS Rama 9") },
-                    { time: "18:00", event: "夜市晚餐", desc: "美食探索。", map: getMapLink("JODD FAIRS Rama 9") }
+                    { time: "18:00", event: "夜市晚餐", desc: "品嚐火山排骨等美食。", map: getMapLink("JODD FAIRS Rama 9") },
+                    { time: "自由", event: "回到飯店休息", desc: "結束豐富的大城之旅。", map: getMapLink("Sindhorn Midtown Hotel") }
                 ],
                 image: "https://lh3.googleusercontent.com/d/1WzToFI3NyCwBHZmeYn_4THKq5w0E9Drg"
             },
@@ -300,12 +283,13 @@
                 title: "文化：泰服體驗 day",
                 subtitle: "鄭王廟 & ICON SIAM",
                 schedule: [
-                    { time: "09:00", event: "飯店早餐", desc: "放鬆心情。", map: getMapLink("Sindhorn Midtown") },
-                    { time: "10:30", event: "出發鄭王廟", desc: "水路交通。", map: getMapLink("Wat Arun") },
-                    { time: "10:45", event: "換泰服與拍攝", desc: "古蹟文化體驗。", map: getMapLink("Wat Arun") },
-                    { time: "12:30", event: "午餐時間", desc: "當地風味。", map: getMapLink("Wat Arun") },
-                    { time: "15:30", event: "前往 ICON SIAM", desc: "曼谷河岸地標。", map: getMapLink("ICONSIAM") },
-                    { time: "16:00", event: "吃東西逛街", desc: "ICON SIAM。", map: getMapLink("ICONSIAM") }
+                    { time: "09:00", event: "飯店早餐", desc: "慢慢享用悠閒早餐。", map: getMapLink("Sindhorn Midtown") },
+                    { time: "10:30", event: "出發鄭王廟", desc: "搭船橫跨湄南河。", map: getMapLink("Wat Arun") },
+                    { time: "10:45", event: "換泰服與拍攝", desc: "鄭王廟經典泰服拍攝。", map: getMapLink("Wat Arun") },
+                    { time: "12:30", event: "午餐時間", desc: "鄭王廟周邊風味餐。", map: getMapLink("Wat Arun") },
+                    { time: "15:30", event: "前往 ICON SIAM", desc: "曼谷最奢華河岸百貨。", map: getMapLink("ICONSIAM") },
+                    { time: "16:00", event: "吃東西逛街", desc: "探索室內水上市場。", map: getMapLink("ICONSIAM") },
+                    { time: "自由", event: "回飯店休息", desc: "享受飯店高空設施。", map: getMapLink("Sindhorn Midtown") }
                 ],
                 image: "https://lh3.googleusercontent.com/d/1ZnR0KWYPpntH5e0URId8c20hoxjSrrni"
             },
@@ -314,14 +298,14 @@
                 title: "美食：美食巡禮 day",
                 subtitle: "松瓦路老街 & 巴士晚餐",
                 schedule: [
-                    { time: "09:00", event: "飯店早餐", desc: "精緻早點。", map: getMapLink("Sindhorn Midtown") },
-                    { time: "10:30", event: "出發松瓦路", desc: "前往文青區。", map: getMapLink("Song Wat Road") },
-                    { time: "10:45", event: "松瓦路老街", desc: "特色小店散策。", map: getMapLink("Song Wat Road") },
-                    { time: "12:30", event: "老街午餐", desc: "在地美食。", map: getMapLink("Song Wat Road") },
-                    { time: "14:30", event: "逛街巡禮", desc: "文化探索。", map: getMapLink("Song Wat Road") },
-                    { time: "17:00", event: "抵達 River City", desc: "集合預備。", map: getMapLink("River City Bangkok") },
-                    { time: "17:30", event: "巴士晚餐之旅", desc: "米其林巴士饗宴。", map: getMapLink("Thai Bus Food Tour") },
-                    { time: "自由", event: "Asiatique 夜市", desc: "河濱夜市漫遊。", map: getMapLink("Asiatique The Riverfront") }
+                    { time: "09:00", event: "飯店早餐", desc: "精緻早點開啟一天。", map: getMapLink("Sindhorn Midtown") },
+                    { time: "10:30", event: "出發搭電車", desc: "前往文青區嵩越路。", map: getMapLink("Song Wat Road") },
+                    { time: "10:45", event: "松瓦路老街", desc: "漫步特色老街與小店。", map: getMapLink("Song Wat Road") },
+                    { time: "12:30", event: "老街午餐", desc: "品嚐在地隱藏版美食。", map: getMapLink("Song Wat Road") },
+                    { time: "14:30", event: "逛街與景點", desc: "老城區文化探索。", map: getMapLink("Song Wat Road") },
+                    { time: "17:00", event: "抵達 River City", desc: "準備搭乘晚餐巴士。", map: getMapLink("River City Bangkok") },
+                    { time: "17:30", event: "巴士晚餐之旅", desc: "米其林巴士美食體驗。", map: getMapLink("Thai Bus Food Tour") },
+                    { time: "自由", event: "Asiatique 夜市", desc: "碼頭河濱夜市漫遊。", map: getMapLink("Asiatique The Riverfront") }
                 ],
                 image: "https://lh3.googleusercontent.com/d/1puhrH53kSJ4bZ0K7ySLEt0CPC16MK-LP"
             },
@@ -330,12 +314,12 @@
                 title: "悠閒：現代曼谷 day",
                 subtitle: "文創聚落 & One Bangkok",
                 schedule: [
-                    { time: "09:00", event: "飯店早餐", desc: "完整早晨。", map: getMapLink("Sindhorn Midtown") },
-                    { time: "10:30", event: "出發搭電車", desc: "潮流新地標移動。", map: getMapLink("One Bangkok") },
-                    { time: "11:00", event: "Piccolo vicolo", desc: "森林系文創咖啡廳。", map: getMapLink("Piccolo vicolo cafe") },
-                    { time: "自由", event: "One Bangkok", desc: "參訪最新地標。", map: getMapLink("One Bangkok") },
-                    { time: "18:00", event: "團隊晚餐", desc: "最後一晚盛宴。", map: getMapLink("One Bangkok") },
-                    { time: "自由", event: "Spa 按摩", desc: "放鬆消除疲勞。", map: getMapLink("Let's Relax Spa One Bangkok") }
+                    { time: "09:00", event: "飯店早餐", desc: "曼谷最後一個完整早晨。", map: getMapLink("Sindhorn Midtown") },
+                    { time: "10:30", event: "出發搭電車", desc: "前往現代潮流新地標。", map: getMapLink("One Bangkok") },
+                    { time: "11:00", event: "Piccolo vicolo", desc: "森林系文創咖啡廳午茶。", map: getMapLink("Piccolo vicolo cafe") },
+                    { time: "自由", event: "One Bangkok", desc: "參訪曼谷最新地標商場。", map: getMapLink("One Bangkok") },
+                    { time: "18:00", event: "晚餐時間", desc: "最後一晚盛宴。", map: getMapLink("One Bangkok") },
+                    { time: "自由", event: "Spa 按摩", desc: "消除全程疲勞。", map: getMapLink("Let's Relax Spa One Bangkok") }
                 ],
                 image: "https://lh3.googleusercontent.com/d/100N6HzYx3DpbfGO3Jvp3vNr6YCNtNUP7"
             },
@@ -344,13 +328,14 @@
                 title: "賦歸：Home sweet home",
                 subtitle: "最後採買 → BKK → TPE",
                 schedule: [
-                    { time: "09:00", event: "飯店早餐", desc: "收拾整理行李。", map: getMapLink("Sindhorn Midtown") },
-                    { time: "12:00前", event: "CHECK OUT", desc: "辦理退房手續。", map: getMapLink("Sindhorn Midtown") },
-                    { time: "自由", event: "最後採買", desc: "Big C 掃貨時間。", map: getMapLink("Big C Supercenter Ratchadamri") },
+                    { time: "09:00", event: "飯店早餐", desc: "慢悠悠收拾行李。", map: getMapLink("Sindhorn Midtown") },
+                    { time: "12:00前", event: "CHECK OUT", desc: "退房手續辦理。", map: getMapLink("Sindhorn Midtown") },
+                    { time: "自由", event: "最後採買採購", desc: "Big C 或市區最後掃貨。", map: getMapLink("Big C Supercenter Ratchadamri") },
+                    { time: "14:00", event: "飯店集合", desc: "準備上車前往機場。", map: getMapLink("Sindhorn Midtown") },
                     { time: "14:15", event: "出發去機場", desc: "專車接送至 BKK。", map: getMapLink("Suvarnabhumi Airport") },
-                    { time: "15:15", event: "機場 CHECK IN", desc: "辦理登機。", map: getMapLink("Suvarnabhumi Airport") },
-                    { time: "17:15", event: "起飛返台", desc: "愉快賦歸。", map: getMapLink("Suvarnabhumi Airport") },
-                    { time: "21:50", event: "抵達桃園機場", desc: "回到溫暖的家。", map: getMapLink("桃園國際機場") }
+                    { time: "15:15", event: "機場 CHECK IN", desc: "長榮航空櫃台報到。", map: getMapLink("Suvarnabhumi Airport") },
+                    { time: "17:15", event: "起飛返台 (BR68)", desc: "飛回桃園國際機場。", map: getMapLink("Suvarnabhumi Airport") },
+                    { time: "21:50", event: "抵達桃園機場", desc: "平安回家。", map: getMapLink("桃園國際機場") }
                 ],
                 image: "https://images.unsplash.com/photo-1534452203293-494d7ddbf7e0?auto=format&fit=crop&q=80&w=800"
             }
@@ -395,10 +380,21 @@
             const isItinerary = tab === 'itinerary';
             document.getElementById('itinerary-content').classList.toggle('hidden', !isItinerary);
             document.getElementById('transport-content').classList.toggle('hidden', isItinerary);
+            
             const navIt = document.getElementById('nav-itinerary');
             const navTr = document.getElementById('nav-transport');
-            navIt.className = isItinerary ? "text-[11px] md:text-sm font-bold opacity-100 border-b-2 border-orange-500 pb-1 breath-effect" : "text-[11px] md:text-sm font-bold opacity-60 pb-1 breath-effect";
-            navTr.className = !isItinerary ? "text-[11px] md:text-sm font-bold opacity-100 border-b-2 border-orange-500 pb-1 breath-effect" : "text-[11px] md:text-sm font-bold opacity-60 pb-1 breath-effect";
+            
+            if (isItinerary) {
+                navIt.classList.add('opacity-100', 'border-b-2', 'border-orange-500');
+                navIt.classList.remove('opacity-60');
+                navTr.classList.add('opacity-60');
+                navTr.classList.remove('opacity-100', 'border-b-2', 'border-orange-500');
+            } else {
+                navTr.classList.add('opacity-100', 'border-b-2', 'border-orange-500');
+                navTr.classList.remove('opacity-60');
+                navIt.classList.add('opacity-60');
+                navIt.classList.remove('opacity-100', 'border-b-2', 'border-orange-500');
+            }
         };
 
         function renderDayList() {
@@ -412,7 +408,7 @@
                     showDay(day);
                     if (window.innerWidth < 1024) document.getElementById('detail-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
                 };
-                card.innerHTML = `<p class="text-[8px] font-black text-slate-400 uppercase">Day 0${day}</p><h4 class="text-[11px] font-black text-slate-900 mt-1 truncate">${d.title}</h4>`;
+                card.innerHTML = `<p class="text-[8px] md:text-[9px] font-black text-slate-400 uppercase">Day 0${day}</p><h4 class="text-[11px] md:text-sm font-black text-slate-900 mt-1 truncate">${d.title}</h4>`;
                 list.appendChild(card);
             });
         }
@@ -422,13 +418,10 @@
             document.querySelectorAll('.day-card').forEach((c, i) => c.classList.toggle('active', i == day-1));
             const d = window.itineraryData[day];
             document.getElementById('detail-panel').innerHTML = `
-                <div class="mb-8 md:mb-12 flex flex-col md:flex-row md:items-end justify-between gap-4">
-                    <div>
-                        <span class="bg-orange-500 text-white text-[10px] px-3 py-1 rounded-full font-black shadow-lg">DAY 0${day}</span>
-                        <h2 class="text-2xl md:text-4xl font-black text-slate-900 mt-3 tracking-tight">${d.title}</h2>
-                        <p class="text-orange-500 font-bold text-xs mt-1 italic">${d.subtitle}</p>
-                    </div>
-                    <button onclick="getAiInsight()" class="ai-btn w-fit breath-effect">✨ AI 攻略</button>
+                <div class="mb-8 md:mb-12">
+                    <span class="bg-orange-500 text-white text-[10px] px-3 py-1 rounded-full font-black shadow-lg">DAY 0${day}</span>
+                    <h2 class="text-2xl md:text-4xl font-black text-slate-900 mt-3 tracking-tight">${d.title}</h2>
+                    <p class="text-orange-500 font-bold text-xs mt-1 italic">${d.subtitle}</p>
                 </div>
                 <div class="flex flex-col-reverse md:grid md:grid-cols-2 gap-8">
                     <div class="space-y-6 relative">
@@ -454,29 +447,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="ai-result"></div>
             `;
-        };
-
-        window.getAiInsight = async function() {
-            const resultArea = document.getElementById('ai-result');
-            resultArea.innerHTML = `<div class="p-8 rounded-3xl loading-shimmer flex items-center justify-center text-xs font-bold text-slate-400 italic mt-8">Gemini 正在調製攻略...</div>`;
-            try {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${geminiApiKey}`, {
-                    method: 'POST', headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: "提供這天曼谷行程的 3 點具體攻略與小提醒（繁體中文）： " + JSON.stringify(window.itineraryData[window.currentDay]) }] }] })
-                });
-                const res = await response.json();
-                // 這裡去除了 bg-white，改用透明玻璃質感
-                resultArea.innerHTML = `
-                    <div class="fade-in p-6 rounded-3xl border border-white/30 shadow-xl mt-6 backdrop-blur-sm" style="background: rgba(255,255,255,0.15)">
-                        <h4 class="font-black text-orange-500 mb-2 text-sm flex items-center gap-2">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1a1 1 0 112 0v1a1 1 0 11-2 0zM13.536 14.95a1 1 0 01-1.415 0l-.707-.707a1 1 0 111.414-1.414l.707.707a1 1 0 010 1.414zM16.121 17.243L16.121 17.243a1 1 0 01-1.414 0l-.707-.707a1 1 0 111.414-1.414l.707.707a1 1 0 010 1.414zM8.93 4.572a1 1 0 00-1.86 0l-1.07 2.45-2.67.39a1 1 0 00-.55 1.71l1.94 1.89-.46 2.66a1 1 0 001.45 1.05l2.39-1.26 2.39 1.26a1 1 0 001.45-1.05l-.46-2.66 1.94-1.89a1 1 0 00-.55-1.71l-2.67-.39-1.07-2.45z"></path></svg>
-                            AI 專業建議
-                        </h4>
-                        <div class="text-[11px] md:text-sm text-slate-700 whitespace-pre-wrap leading-relaxed">${res.candidates[0].content.parts[0].text}</div>
-                    </div>`;
-            } catch (err) { resultArea.innerHTML = `<p class="p-8 text-center text-slate-400 text-xs mt-8 italic">AI 助理暫時休息中...</p>`; }
         };
 
         function closeModal() { document.getElementById('custom-modal').style.display = 'none'; }
