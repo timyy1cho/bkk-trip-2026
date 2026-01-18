@@ -260,7 +260,7 @@
 
         // --- ⚙️ 重要：請在此處填入您的 Firebase 配置 ---
         const myConfig = {
-            apiKey: "", // 請填入您的 API Key
+            apiKey: "", 
             authDomain: "",
             projectId: "",
             storageBucket: "",
@@ -270,80 +270,118 @@
 
         const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : myConfig;
         const currentAppId = typeof __app_id !== 'undefined' ? __app_id : 'zhuo-bkk-2026';
-        const geminiApiKey = ""; // 若要使用 AI 攻略請填入您的 Gemini Key
+        const geminiApiKey = ""; 
 
-        // 行程預設資料（確保網頁不空白）
+        // 根據 Google 試算表更新後的行程資料
         let itineraryData = {
             1: {
                 date: "2月20日 (五)",
-                title: "啟程：曼谷奢華 Buffet 之夜",
-                subtitle: "Copper Beyond Buffet",
+                title: "啟程：曼谷吃吧費 day",
+                subtitle: "桃園機場 → BKK → Copper Buffet",
                 schedule: [
-                    { time: "05:00", event: "桃園機場 CHECK IN", desc: "TPE 報到並領取預約好的 E-SIM 網卡。" },
-                    { time: "08:05", event: "長榮航空起飛 (BR67)", desc: "準時啟航前往曼谷。" },
-                    { time: "11:10", event: "抵達曼谷 BKK", desc: "辦理出關手續、更換網卡。" },
-                    { time: "12:00", event: "專車接機前往飯店", desc: "14 人座 VIP 包車接送至 Sindhorn Midtown。" },
-                    { time: "19:30", event: "Copper Beyond Buffet 晚餐", desc: "享受曼谷頂級吃到飽饗宴。" }
+                    { time: "05:00", event: "桃園機場 CHECK IN", desc: "領取預約好的 E-SIM 網卡。" },
+                    { time: "08:05", event: "飛機起飛 (BR67)", desc: "搭乘長榮航空前往曼谷 TPE。" },
+                    { time: "11:10", event: "抵達曼谷 BKK", desc: "抵達蘇凡納布機場。" },
+                    { time: "11:50", event: "排隊出關+換網卡", desc: "完成入境手續並安裝網卡。" },
+                    { time: "12:00", event: "包車出發前往飯店", desc: "前往 Sindhorn Midtown Hotel。" },
+                    { time: "12:50", event: "寄放行李 / CHECK IN", desc: "辦理入住手續。" },
+                    { time: "13:15", event: "出發換錢", desc: "前往 SUPER RICH 換匯。" },
+                    { time: "13:45", event: "午餐時間", desc: "siam 商圈(centralwOrld、Paragon等)。" },
+                    { time: "15:00", event: "自由逛街", desc: "siam 商圈探索之旅。" },
+                    { time: "19:10", event: "餐廳候位", desc: "copper buffet 準備進場。" },
+                    { time: "19:30", event: "晚餐時間", desc: "copper buffet 頂級吃到飽饗宴。" },
+                    { time: "21:30", event: "回飯店休息", desc: "結束第一天精彩行程。" }
                 ],
                 image: "https://lh3.googleusercontent.com/d/1QJsBsQLaxhvEQQkXazl35WPgngLyct8f"
             },
             2: {
                 date: "2月21日 (六)",
-                title: "購物：恰圖恰週末市集狂掃貨",
-                subtitle: "週末市集與 Central Ladprao",
+                title: "購物：市區逛街 day",
+                subtitle: "洽圖恰市集 & 尚泰廣場",
                 schedule: [
-                    { time: "11:15", event: "恰圖恰市集午餐/逛街", desc: "全球最大露天市集，盡情掃貨。" },
-                    { time: "16:00", event: "前往尚泰廣場 (叻拋店)", desc: "轉戰 Central Ladprao。" }
+                    { time: "09:00", event: "飯店早餐", desc: "悠閒享用飯店自助早餐。" },
+                    { time: "10:30", event: "出發搭電車", desc: "體驗曼谷當地交通前往洽圖恰。" },
+                    { time: "11:15", event: "洽圖恰市集", desc: "開始逛全球最大市集與午餐。" },
+                    { time: "16:00", event: "前往尚泰廣場 (叻拋店)", desc: "轉戰大型購物商場。" },
+                    { time: "18:00", event: "晚餐時間", desc: "在尚泰廣場享受自由午晚餐。" },
+                    { time: "自由", event: "自由逛街與回程", desc: "享受購物時光後返回飯店。" }
                 ],
                 image: "https://lh3.googleusercontent.com/d/1uqcIVU-zzczUAd28Ai85dct9_Or83jv7"
             },
             3: {
                 date: "2月22日 (日)",
-                title: "大城：獅子王動物園奇遇",
-                subtitle: "Ayutthaya Zoo & JODD FAIRS",
+                title: "探索：動物園 day",
+                subtitle: "大城府動物園 & JODD FAIRS",
                 schedule: [
-                    { time: "09:45", event: "大城府動物園", desc: "與長頸鹿接觸及拍照。" },
-                    { time: "16:00", event: "前往 JODD FAIRS 夜市", desc: "體驗曼谷超人氣夜市。" }
+                    { time: "07:00", event: "飯店早餐", desc: "提早用餐準備出發。" },
+                    { time: "08:00", event: "出發動物園", desc: "搭乘包車前往大城府。" },
+                    { time: "09:45", event: "抵達動物園", desc: "大城府動物園 Ayutthaya Zoo 開始探索。" },
+                    { time: "自由", event: "Bolan Cafe", desc: "特色咖啡廳休息與拍照。" },
+                    { time: "自由", event: "參訪柴瓦塔那蘭寺", desc: "觀賞壯麗古蹟古文明。" },
+                    { time: "16:00", event: "前往夜市", desc: "前往 JODDFAIR RAMA9 夜市。" },
+                    { time: "18:00", event: "晚餐與逛夜市", desc: "夜市美食探索與自由活動。" },
+                    { time: "自由", event: "回到飯店休息", desc: "結束豐富的一天。" }
                 ],
                 image: "https://lh3.googleusercontent.com/d/1WzToFI3NyCwBHZmeYn_4THKq5w0E9Drg"
             },
             4: {
                 date: "2月23日 (一)",
-                title: "文化：經典泰服與奢華百貨",
-                subtitle: "鄭王廟與 ICONSIAM",
+                title: "文化：泰服體驗 day",
+                subtitle: "鄭王廟 & ICON SIAM",
                 schedule: [
-                    { time: "10:45", event: "鄭王廟換泰服與拍攝", desc: "拍出古蹟時尚大片。" },
-                    { time: "15:30", event: "前往 ICON SIAM", desc: "跨河前往最奢百貨。" }
+                    { time: "09:00", event: "飯店早餐", desc: "輕鬆的早晨時光。" },
+                    { time: "10:30", event: "出發鄭王廟", desc: "前往泰服拍攝地。" },
+                    { time: "10:45", event: "換泰服與拍攝", desc: "鄭王廟換泰服+經典大片拍攝。" },
+                    { time: "12:30", event: "午餐時間", desc: "就近解決當地美食。" },
+                    { time: "15:30", event: "前往 ICON SIAM", desc: "跨河前往最美百貨公司。" },
+                    { time: "16:00", event: "吃東西逛街", desc: "ICON SIAM 自由購物與美食。" },
+                    { time: "自由", event: "回飯店休息", desc: "享受飯店設施。" }
                 ],
                 image: "https://lh3.googleusercontent.com/d/1ZnR0KWYPpntH5e0URId8c20hoxjSrrni"
             },
             5: {
                 date: "2月24日 (二)",
-                title: "文青：嵩越路老街與米其林巡禮",
-                subtitle: "Song Wat Road & Thai Bus Food Tour",
+                title: "美食：美食巡禮 day",
+                subtitle: "松瓦路文青街 & 巴士晚餐",
                 schedule: [
-                    { time: "11:15", event: "松瓦路老街散策", desc: "探索特色小店與老建築。" },
-                    { time: "17:30", event: "米其林巴士晚餐之旅", desc: "在巴士上邊享用美食邊賞夜景。" }
+                    { time: "09:00", event: "飯店早餐", desc: "品味精緻早點。" },
+                    { time: "10:30", event: "出發搭電車", desc: "前往老城區嵩越路。" },
+                    { time: "10:45", event: "松瓦路老街", desc: "文青逛街聖地探索。" },
+                    { time: "12:30", event: "老街午餐", desc: "享用在地隱藏美食。" },
+                    { time: "14:30", event: "逛街與景點", desc: "嵩越路老店巡禮。" },
+                    { time: "17:00", event: "前往晚餐餐廳", desc: "抵達曼谷河城購物中心。" },
+                    { time: "17:30", event: "巴士晚餐之旅", desc: "米其林巴士饗宴，夜賞曼谷。" },
+                    { time: "自由", event: "Asiatique 夜市", desc: "碼頭河濱夜市漫遊。" }
                 ],
                 image: "https://lh3.googleusercontent.com/d/1puhrH53kSJ4bZ0K7ySLEt0CPC16MK-LP"
             },
             6: {
                 date: "2月25日 (三)",
-                title: "現代：曼谷地標探索與極致放鬆",
-                subtitle: "Piccolo vicolo & One Bangkok",
+                title: "悠閒：現代曼谷 day",
+                subtitle: "文創聚落 & One Bangkok",
                 schedule: [
-                    { time: "14:00", event: "One Bangkok 地標探索", desc: "參訪曼谷最新地標。" },
-                    { time: "19:30", event: "Let's Relax SPA 舒壓", desc: "消除全程旅途疲勞。" }
+                    { time: "09:00", event: "飯店早餐", desc: "最後一個完整早晨。" },
+                    { time: "10:30", event: "出發搭電車", desc: "前往現代化潮流區域。" },
+                    { time: "11:00", event: "Piccolo vicolo", desc: "綠意森林系文創咖啡廳。" },
+                    { time: "自由", event: "One Bangkok", desc: "參訪曼谷最新地標商場。" },
+                    { time: "18:00", event: "晚餐時間", desc: "團隊晚餐集合地。" },
+                    { time: "自由", event: "Spa 按摩", desc: "放鬆身心回味旅程。" }
                 ],
                 image: "https://lh3.googleusercontent.com/d/100N6HzYx3DpbfGO3Jvp3vNr6YCNtNUP7"
             },
             7: {
                 date: "2月26日 (四)",
-                title: "賦歸：曼谷最後採買與返台",
-                subtitle: "Big C Last Run & Flying Home",
+                title: "賦歸：Home sweet home",
+                subtitle: "最後採買 → BKK → TPE",
                 schedule: [
-                    { time: "10:00", event: "Big C 最後採買", desc: "買齊泰國零食。" },
-                    { time: "17:15", event: "長榮航空起飛 (BR68)", desc: "返回台北。" }
+                    { time: "09:00", event: "飯店早餐", desc: "悠閒整理行李。" },
+                    { time: "12:00前", event: "CHECK OUT", desc: "辦理退房，行李寄放。" },
+                    { time: "自由", event: "最後採買採購", desc: "享受飯店設施或市區採買。" },
+                    { time: "14:00", event: "飯店集合", desc: "伴手禮塞行李準備上車。" },
+                    { time: "14:15", event: "出發去機場", desc: "專車前往蘇凡納布機場。" },
+                    { time: "15:15", event: "CHECK IN", desc: "辦理登機與免稅店補貨。" },
+                    { time: "17:15", event: "起飛返台 (BR68)", desc: "搭機回程 TPE。" },
+                    { time: "21:50", event: "抵達桃園機場", desc: "平安回到溫暖的家。" }
                 ],
                 image: "https://images.unsplash.com/photo-1534452203293-494d7ddbf7e0?auto=format&fit=crop&q=80&w=800"
             }
@@ -466,7 +504,7 @@
                                 <div class="flex-1">
                                     <div class="flex items-center justify-between gap-2">
                                         <h5 class="text-lg font-black text-slate-900 group-hover:text-orange-600 transition-colors leading-tight">${item.event}</h5>
-                                        <button onclick="window.open('https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.event + ' Bangkok')}')" class="map-icon-btn shadow-sm">
+                                        <button onclick="window.open('https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.event + ' ' + (item.desc || 'Bangkok'))}')" class="map-icon-btn shadow-sm">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
                                         </button>
                                     </div>
@@ -487,10 +525,10 @@
             try {
                 const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${geminiApiKey}`, {
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: "提供行程建議：" + JSON.stringify(window.itineraryData[window.currentDay]) }] }] })
+                    body: JSON.stringify({ contents: [{ parts: [{ text: "提供這天泰國行程的具體攻略與注意事項（繁體中文）：" + JSON.stringify(window.itineraryData[window.currentDay]) }] }] })
                 });
                 const res = await response.json();
-                resultArea.innerHTML = `<div class="fade-in p-8 rounded-[2.5rem] bg-white/80 border border-white shadow-xl mt-8"><h4 class="font-black text-orange-500 mb-4">✨ AI 攻略</h4><div class="text-sm text-slate-600 whitespace-pre-wrap">${res.candidates[0].content.parts[0].text}</div></div>`;
+                resultArea.innerHTML = `<div class="fade-in p-8 rounded-[2.5rem] bg-white/80 border border-white shadow-xl mt-8"><h4 class="font-black text-orange-500 mb-4">✨ AI 攻略建議</h4><div class="text-sm text-slate-600 whitespace-pre-wrap">${res.candidates[0].content.parts[0].text}</div></div>`;
             } catch (err) { resultArea.innerHTML = `<p class="p-8 text-center text-slate-400 text-xs mt-8">AI 助理暫時休息中...</p>`; }
         };
 
